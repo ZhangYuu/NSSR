@@ -1,15 +1,6 @@
 {
-  "name": "zs",
-  "version": "1.0.0",
-  "description": "a process manager that will keep the process in background.",
-  "main": "hello.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
-  },
-  "author": "zhang",
-  "license": "ISC",
-  "keywords": [
-    "node.js"
-  ]
+  "name": "NSSR",
+  "bin": {
+    "NSSR": "NSSR"
+  }
 }

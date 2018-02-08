@@ -1,0 +1,46 @@
+#!/usr/bin/env node  
+var option = process.argv[2];
+var name = process.argv[3];
+var exec = require('child_process').exec;
+
+if (option == 'start'){
+var child = exec('echo '+ option + name , 
+	function(err, stdout, stderr) 
+	{ if (err) throw err;
+	 console.log(stdout);}
+);
+}
+
+else if (option == 'stop') {
+
+var child = exec("ps -a|grep s4000.js | grep -v grep | awk '{print $1}'", 
+	function(err, stdout, stderr) 
+	{ if (err) throw err;
+	 console.log(stdout);});
+
+var child = exec("echo second command test",
+		function(err, stdout, stderr) 
+	{ if (err) throw err;
+	 console.log(stdout);});
+}
+
+else if (option == 'restart') {
+var spawn = require('child_process').spawn;
+var free = spawn('echo what',function(err, stdout, stderr) 
+	{ if (err) throw err;
+	 console.log(stdout);}) 
+
+// 捕获标准输出并将其打印到控制台 
+free.stdout.on('data', function (data) { 
+console.log('standard output:\n' + data); 
+});
+}
+
+else{
+var child = exec('does not work', 
+	function(err, stdout, stderr) 
+	{ if (err) throw err;
+	 console.log(stdout);});
+}
+
+//console.log('Hello, world!',process.argv[2]);
