@@ -1,0 +1,12 @@
+code check:
+node server.js
+
+start:
+nohup command &
+nohup node server.js &
+
+stop1:search process number:
+ps -a|grep server.js | grep -v grep | awk '{print $1}'
+
+stop2:kill process
+kill -9  process number
