@@ -4,24 +4,31 @@ var name = process.argv[3];
 var exec = require('child_process').exec;
 
 if (option == 'start'){
-var child = exec('echo '+ option + name , 
+var child = exec('nohup node ' + name + ' &', 
 	function(err, stdout, stderr) 
 	{ if (err) throw err;
-	 console.log(stdout);}
-);
+	 console.log(stdout);
+	});
+var child = exec('echo',
+	function(err, stdout, stderr) 
+	{ if (err) throw err;
+	console.log(stdout);
+	});
 }
 
 else if (option == 'stop') {
-
-var child = exec("ps -a|grep s4000.js | grep -v grep | awk '{print $1}'", 
-	function(err, stdout, stderr) 
-	{ if (err) throw err;
-	 console.log(stdout);});
-
-var child = exec("echo second command test",
-		function(err, stdout, stderr) 
-	{ if (err) throw err;
-	 console.log(stdout);});
+var child = exec("ps -a|grep " + name + " | grep -v grep | awk '{print $1}'", 
+	function(err, stdout, stderr) { 
+		if (err) throw err;
+		var pid1 = stdout.split('\n');
+		//console.log(pid1[0]);
+		if (pid1[1] == ''){
+			console.log("not found this script process");} 
+		else{
+			var child = exec("kill -9 " + pid1[0],	function(err, stdout, stderr) 
+			{ if (err) throw err; console.log(stdout);}
+			);}
+	});
 }
 
 else if (option == 'restart') {
@@ -29,18 +36,17 @@ var spawn = require('child_process').spawn;
 var free = spawn('echo what',function(err, stdout, stderr) 
 	{ if (err) throw err;
 	 console.log(stdout);}) 
-
-// 捕获标准输出并将其打印到控制台 
 free.stdout.on('data', function (data) { 
 console.log('standard output:\n' + data); 
 });
 }
 
-else{
-var child = exec('does not work', 
-	function(err, stdout, stderr) 
-	{ if (err) throw err;
-	 console.log(stdout);});
+else if (option == '-help'){
+	console.log("start   -start the script")
+	console.log("stop    -stop the script ")
+	console.log("restart -restart the script")
 }
 
-//console.log('Hello, world!',process.argv[2]);
+else{
+	 console.log('bad input, please try your command again');
+}
