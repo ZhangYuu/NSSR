@@ -33,18 +33,30 @@ var child = exec("ps -a|grep " + name + " | grep -v grep | awk '{print $1}'",
 
 else if (option == 'restart') {
 var spawn = require('child_process').spawn;
-var free = spawn('echo what',function(err, stdout, stderr) 
-	{ if (err) throw err;
-	 console.log(stdout);}) 
-free.stdout.on('data', function (data) { 
-console.log('standard output:\n' + data); 
-});
+var child = exec("ps -a|grep " + name + " | grep -v grep | awk '{print $1}'", 
+	function(err, stdout, stderr) { 
+		if (err) throw err;
+		var pid1 = stdout.split('\n');
+		//console.log(pid1[0]);
+		if (pid1[1] == ''){
+			console.log("not found this script process");} 
+		else{
+			var child = exec("kill -9 " + pid1[0],	function(err, stdout, stderr) 
+			{ if (err) throw err; console.log(stdout);}
+			);
+			console.log('works!')
+			var child = exec('nohup node ' + name + ' &', 
+			function(err, stdout, stderr) 
+			{ if (err) throw err;
+			 console.log(stdout);
+			});}
+	});
 }
 
 else if (option == '-help'){
-	console.log("start   -start the script")
-	console.log("stop    -stop the script ")
-	console.log("restart -restart the script")
+	console.log("start   --start the script")
+	console.log("stop    -=stop the script ")
+	console.log("restart --restart the script")
 }
 
 else{
