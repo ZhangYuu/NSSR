@@ -1,3 +1,5 @@
+#command memo for personal checking
+
 code check:
 node server.js
 
